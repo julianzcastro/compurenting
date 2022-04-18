@@ -1,0 +1,1 @@
+insert into equipo (serial, marca, disponible, tipo_equipo) values (:serial, :marca, :disponible, :tipoEquipo)

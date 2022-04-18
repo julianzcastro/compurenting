@@ -1,0 +1,21 @@
+jasypt:
+   encryptor:
+      password: ${jasyptpwd:secretkey}
+      algorithm: PBEWithMD5AndDES
+
+server:
+   port: 8080
+   servlet:
+      context-path: /compurenting
+      session:
+         timeout: 21600s
+
+spring:
+   datasource:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      type: com.zaxxer.hikari.HikariDataSource
+      jdbcUrl: jdbc:mysql://127.0.0.1:3306/compurenting-db
+      username: root
+      password: root
+      hikari:
+         poolName: pool

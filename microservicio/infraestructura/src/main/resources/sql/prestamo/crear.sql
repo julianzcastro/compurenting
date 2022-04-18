@@ -1,0 +1,1 @@
+insert into prestamo (identificacion_usuario,fecha_prestamo, id_equipo) values (:identificacionUsuario, :fechaPrestamo, :idEquipo)
