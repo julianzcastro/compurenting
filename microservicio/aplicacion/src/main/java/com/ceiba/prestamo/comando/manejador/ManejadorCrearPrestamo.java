@@ -1,7 +1,6 @@
 package com.ceiba.prestamo.comando.manejador;
 
 import com.ceiba.ComandoRespuesta;
-import com.ceiba.equipo.comando.ComandoEquipo;
 import com.ceiba.manejador.ManejadorComandoRespuesta;
 import com.ceiba.prestamo.comando.ComandoPrestamo;
 import com.ceiba.prestamo.comando.fabrica.FabricaPrestamo;

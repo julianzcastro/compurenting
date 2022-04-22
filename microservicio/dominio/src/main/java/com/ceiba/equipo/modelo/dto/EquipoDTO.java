@@ -1,6 +1,5 @@
 package com.ceiba.equipo.modelo.dto;
 
-import com.ceiba.tipoequipo.TipoEquipoEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

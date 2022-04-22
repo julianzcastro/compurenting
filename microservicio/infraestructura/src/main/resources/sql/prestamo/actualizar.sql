@@ -1,6 +1,10 @@
 update prestamo
 set identificacion_usuario = :identificacionUsuario,
+	id_equipo = :idEquipo,
 	fecha_prestamo = :fechaPrestamo,
 	total = :total,
-	id_equipo = :idEquipo
+	estado= :estado
+
 where id = :id
+
+

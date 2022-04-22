@@ -29,11 +29,6 @@ public class ComandoControladorUsuario {
 		this.manejadorActualizarUsuario = manejadorActualizarUsuario;
     }
 
-	/*@GetMapping()
-	public ComandoUsuario obtenerDummy(){
-		return new ComandoUsuario();
-	}*/
-
     @PostMapping
     @ApiOperation("Crear Usuario")
     public ComandoRespuesta<Long> crear(@RequestBody ComandoUsuario comandoUsuario) {

@@ -18,10 +18,13 @@ create table equipo (
 create table prestamo(
  id int not null auto_increment,
  identificacion_usuario varchar(100) not null,
- fecha_prestamo date not null,
- total int,
  id_equipo int not null,
+ fecha_prestamo date not null,
+ numero_dias int not null,
+ total int,
+ estado boolean not null,
  primary key (id),
  FOREIGN KEY(id_equipo) REFERENCES equipo(id)
  ON DELETE CASCADE ON UPDATE CASCADE
 );
+

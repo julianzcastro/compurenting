@@ -1,26 +1,27 @@
 package com.ceiba.configuracion.prestamo;
 
+import com.ceiba.equipo.puerto.repositorio.EquipoRepositorio;
 import com.ceiba.prestamo.puerto.repositorio.PrestamoRepositorio;
 import com.ceiba.prestamo.servicio.ActualizarPrestamoServicio;
 import com.ceiba.prestamo.servicio.CrearPrestamoServicio;
-import com.ceiba.prestamo.servicio.EliminarPrestamoServicio;
+import com.ceiba.prestamo.servicio.FinalizarPrestamoServicio;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class PrestamoBeanServicio {
     @Bean
-    public CrearPrestamoServicio crearEquipoServicio(PrestamoRepositorio prestamoRepositorio){
-        return new CrearPrestamoServicio(prestamoRepositorio);
+    public CrearPrestamoServicio crearPrestamoServicio(PrestamoRepositorio prestamoRepositorio, EquipoRepositorio equipoRepositorio){
+        return new CrearPrestamoServicio(prestamoRepositorio, equipoRepositorio);
     }
 
     @Bean
-    public ActualizarPrestamoServicio actualizarEquipoServicio(PrestamoRepositorio prestamoRepositorio){
-        return new ActualizarPrestamoServicio(prestamoRepositorio);
+    public ActualizarPrestamoServicio actualizarPrestamoServicio(PrestamoRepositorio prestamoRepositorio, EquipoRepositorio equipoRepositorio){
+        return new ActualizarPrestamoServicio(prestamoRepositorio, equipoRepositorio);
     }
 
     @Bean
-    public EliminarPrestamoServicio eliminarEquipoServicio(PrestamoRepositorio prestamoRepositorio){
-        return new EliminarPrestamoServicio(prestamoRepositorio);
+    public FinalizarPrestamoServicio finalizarPrestamoServicio(PrestamoRepositorio prestamoRepositorio){
+        return new FinalizarPrestamoServicio(prestamoRepositorio);
     }
 }

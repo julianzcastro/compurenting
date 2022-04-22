@@ -14,8 +14,10 @@ public class Prestamo {
     private static final String INFORMACION_EQUIPO_OBLIGATORIO= "La información del equipo a prestar debe ser ingresada.";
     private static final String NUMERO_DIAS_PRESTAMO_OBLIGATORIO= "El número de días que prestará el equipo es obligatorio.";
     private static final String ESTADO_PRESTAMO_OBLIGATORIO= "El estado del prestamo es un dato obligatorio.";
+    private static final String NUMERO_DIAS_DEBE_SER_NUMERICO= "El número de días debe ser numérico.";
+    private static final String NUMERO_DIAS_DEBE_SER_VALOR_POSITIVO= "El número de días debe ser positivo, mayor a cero.";
 
-    private static final int COSTO_DIAS_EXTRA = 10;
+    private static final int COSTO_POR_DIA_EXTRA = 10;
 
     private Long id;
     private String identificacionUsuario;
@@ -23,26 +25,38 @@ public class Prestamo {
     private LocalDate fechaPrestamo;
     private Integer numeroDias;
     private Integer total;
+    private boolean estado;
 
-    public Prestamo(Long id, String identificacionUsuario, Equipo equipo, LocalDate fechaPrestamo, Integer numeroDias) {
+    public Prestamo(Long id, String identificacionUsuario, Equipo equipo, Integer numeroDias) {
 
         ValidadorArgumento.validarObligatorio(identificacionUsuario, IDENTIFICACION_USUARIO_OBLIGATORIO);
         ValidadorArgumento.validarObligatorio(equipo, INFORMACION_EQUIPO_OBLIGATORIO);
         ValidadorArgumento.validarObligatorio(numeroDias, NUMERO_DIAS_PRESTAMO_OBLIGATORIO);
+        ValidadorArgumento.validarNumerico(String.valueOf(numeroDias), NUMERO_DIAS_DEBE_SER_NUMERICO);
+        ValidadorArgumento.validarMayorQueCero(numeroDias, NUMERO_DIAS_DEBE_SER_VALOR_POSITIVO);
         this.id = id;
         this.identificacionUsuario = identificacionUsuario;
         this.equipo = equipo;
         this.fechaPrestamo = LocalDate.now();
         this.numeroDias = numeroDias;
-        this.total=calcularTotal(numeroDias);
+        this.estado= true;
+        calcularTotalInicial(numeroDias);
     }
 
-    private Integer calcularTotal(Integer numeroDias){
-        return numeroDias*getEquipo().getTipoEquipo().getPrecioDia();
+    private void calcularTotalInicial(Integer numeroDias){
+        this.total= numeroDias*getEquipo().getTipoEquipo().getPrecioDia();
+    }
+
+    public static void asignarTotal(Prestamo prestamo){
+        LocalDate fechaActual = LocalDate.now();
+        LocalDate fechaDevolucion = prestamo.getFechaPrestamo();
+        if(fechaActual.isAfter(fechaDevolucion)){
+            prestamo.calcularExcedente(fechaActual.getDayOfMonth()-fechaDevolucion.getDayOfMonth());
+        }
     }
 
     public void calcularExcedente(Integer numeroDiasExtra){
-        int excedente = numeroDiasExtra * COSTO_DIAS_EXTRA;
+        int excedente = numeroDiasExtra * COSTO_POR_DIA_EXTRA;
         setTotal(getTotal()+excedente);
     }
 

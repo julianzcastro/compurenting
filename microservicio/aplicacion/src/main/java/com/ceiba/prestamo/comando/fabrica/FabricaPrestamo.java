@@ -1,6 +1,5 @@
 package com.ceiba.prestamo.comando.fabrica;
 
-import com.ceiba.equipo.modelo.entidad.Equipo;
 import com.ceiba.equipo.puerto.repositorio.EquipoRepositorio;
 import com.ceiba.prestamo.comando.ComandoPrestamo;
 import com.ceiba.prestamo.modelo.entidad.Prestamo;
@@ -22,9 +21,7 @@ public class FabricaPrestamo {
                 comandoPrestamo.getId(),
                 comandoPrestamo.getIdentificacionUsuario(),
                 this.equipoRepositorio.buscarPorId(comandoPrestamo.getIdEquipo()),
-                comandoPrestamo.getFechaPrestamo(),
-                comandoPrestamo.getNumeroDias()
-        );
+                comandoPrestamo.getNumeroDias());
     }
 
 }

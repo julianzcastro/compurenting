@@ -1,9 +1,5 @@
 package com.ceiba.configuracion;
 
-import com.ceiba.equipo.puerto.repositorio.EquipoRepositorio;
-import com.ceiba.equipo.servicio.ActualizarEquipoServicio;
-import com.ceiba.equipo.servicio.CrearEquipoServicio;
-import com.ceiba.equipo.servicio.EliminarEquipoServicio;
 import com.ceiba.usuario.puerto.repositorio.RepositorioUsuario;
 import com.ceiba.usuario.servicio.ServicioActualizarUsuario;
 import com.ceiba.usuario.servicio.ServicioCrearUsuario;

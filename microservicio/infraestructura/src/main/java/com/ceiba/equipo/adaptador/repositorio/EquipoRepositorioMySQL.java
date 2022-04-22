@@ -1,8 +1,7 @@
 package com.ceiba.equipo.adaptador.repositorio;
 
-import com.ceiba.equipo.adaptador.dao.MapeoEquipo;
-import com.ceiba.equipo.fabrica.EquipoCreacional;
-import com.ceiba.equipo.fabrica.FabricaEntidadEquipoCreacional;
+import com.ceiba.equipo.fabrica.EquipoTransaccional;
+import com.ceiba.equipo.fabrica.FabricaEntidadEquipoTransaccional;
 import com.ceiba.equipo.modelo.entidad.Equipo;
 import com.ceiba.equipo.puerto.repositorio.EquipoRepositorio;
 import com.ceiba.infraestructura.jdbc.CustomNamedParameterJdbcTemplate;
@@ -35,6 +34,12 @@ public class EquipoRepositorioMySQL implements EquipoRepositorio {
     @SqlStatement(namespace="equipo", value="buscarPorId")
     private static String sqlExistePorIdentificacion;
 
+    @SqlStatement(namespace="equipo", value="verificarDisponibilidadPorId")
+    private static String sqlVerificarDisponibilidadPorId;
+
+    @SqlStatement(namespace="equipo", value="actualizarDisponibilidad")
+    private static String sqlActualizarDisponibilidad;
+
 
     public EquipoRepositorioMySQL(CustomNamedParameterJdbcTemplate customNamedParameterJdbcTemplate) {
         this.customNamedParameterJdbcTemplate = customNamedParameterJdbcTemplate;
@@ -42,13 +47,14 @@ public class EquipoRepositorioMySQL implements EquipoRepositorio {
 
     @Override
     public Long crear(Equipo equipo) {
-        EquipoCreacional equipoCreacional = FabricaEntidadEquipoCreacional.crear(equipo);
-        return this.customNamedParameterJdbcTemplate.crear(equipoCreacional, sqlCrear);
+        EquipoTransaccional equipoTransaccional = FabricaEntidadEquipoTransaccional.crear(equipo);
+        return this.customNamedParameterJdbcTemplate.crear(equipoTransaccional, sqlCrear);
     }
 
     @Override
     public void actualizar(Equipo equipo) {
-        this.customNamedParameterJdbcTemplate.actualizar(equipo, sqlActualizar);
+        EquipoTransaccional equipoTransaccional = FabricaEntidadEquipoTransaccional.crear(equipo);
+        this.customNamedParameterJdbcTemplate.actualizar(equipoTransaccional, sqlActualizar);
     }
 
     @Override
@@ -81,7 +87,21 @@ public class EquipoRepositorioMySQL implements EquipoRepositorio {
 
     @Override
     public Equipo buscarPorId(Long id) {
-        return this.customNamedParameterJdbcTemplate.getNamedParameterJdbcTemplate().query(sqlExistePorIdentificacion, new MapeoEquipoEntidad()).get(0);
+        MapSqlParameterSource paramSource = new MapSqlParameterSource();
+        paramSource.addValue("id", id);
+        return this.customNamedParameterJdbcTemplate.getNamedParameterJdbcTemplate().queryForObject(sqlExistePorIdentificacion, paramSource, new MapeoEquipoEntidad());
+    }
+
+    @Override
+    public boolean verificarDisponibilidadPorId(Long id) {
+        MapSqlParameterSource paramSource = new MapSqlParameterSource();
+        paramSource.addValue("id", id);
+        return this.customNamedParameterJdbcTemplate.getNamedParameterJdbcTemplate().queryForObject(sqlVerificarDisponibilidadPorId, paramSource, Boolean.class);
+    }
+
+    @Override
+    public void actualizarDisponibilidad(Equipo equipo) {
+        this.customNamedParameterJdbcTemplate.actualizar(equipo,sqlActualizarDisponibilidad);
     }
 
 

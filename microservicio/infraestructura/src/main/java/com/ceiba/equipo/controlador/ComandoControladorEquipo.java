@@ -6,7 +6,6 @@ import com.ceiba.equipo.comando.ComandoEquipo;
 import com.ceiba.equipo.comando.manejador.ManejadorActualizarEquipo;
 import com.ceiba.equipo.comando.manejador.ManejadorCrearEquipo;
 import com.ceiba.equipo.comando.manejador.ManejadorEliminarEquipo;
-import com.ceiba.equipo.modelo.dto.EquipoDTO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +32,7 @@ public class ComandoControladorEquipo {
         return manejadorCrearEquipo.ejecutar(comandoEquipo);
     }
 
-    @PutMapping
+    @PutMapping(value="/{id}")
     @ApiOperation("Actualizar Equipo")
     public void actualizar(@RequestBody ComandoEquipo comandoEquipo, @PathVariable Long id){
         comandoEquipo.setId(id);

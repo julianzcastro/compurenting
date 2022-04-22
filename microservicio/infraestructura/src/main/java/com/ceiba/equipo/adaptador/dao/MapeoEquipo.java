@@ -1,9 +1,7 @@
 package com.ceiba.equipo.adaptador.dao;
 
 import com.ceiba.equipo.modelo.dto.EquipoDTO;
-import com.ceiba.equipo.modelo.entidad.Equipo;
 import com.ceiba.infraestructura.jdbc.MapperResult;
-import com.ceiba.tipoequipo.TipoEquipoEnum;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;

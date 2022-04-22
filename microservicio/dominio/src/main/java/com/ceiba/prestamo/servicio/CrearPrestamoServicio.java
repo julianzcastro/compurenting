@@ -1,30 +1,39 @@
 package com.ceiba.prestamo.servicio;
 
 import com.ceiba.dominio.excepcion.ExcepcionDuplicidad;
+import com.ceiba.equipo.modelo.entidad.Equipo;
+import com.ceiba.equipo.puerto.repositorio.EquipoRepositorio;
 import com.ceiba.prestamo.modelo.entidad.Prestamo;
 import com.ceiba.prestamo.puerto.repositorio.PrestamoRepositorio;
 
 public class CrearPrestamoServicio {
 
-    private static final String PRESTAMO_YA_EXISTE="El préstamo que intenta registrar ya existe";
+    private static final String PRESTAMO_YA_EXISTE="El préstamo que intenta registrar ya existe en el sistema.";
     private static final String IDENTIFICACION_USUARIO_TIENE_PRESTAMO_ACTIVO="El usuario ya tiene un préstamo activo, registrado en el sistema.";
     private static final String EQUIPO_NO_ESTA_DISPONIBLE="El equipo ingresado tiene otro préstamo activo registrado en el sistema.";
 
     private PrestamoRepositorio prestamoRepositorio;
+    private EquipoRepositorio equipoRepositorio;
 
-    public CrearPrestamoServicio(PrestamoRepositorio prestamoRepositorio) {
+    public CrearPrestamoServicio(PrestamoRepositorio prestamoRepositorio, EquipoRepositorio equipoRepositorio) {
         this.prestamoRepositorio = prestamoRepositorio;
+        this.equipoRepositorio = equipoRepositorio;
     }
 
     public Long ejecutar(Prestamo prestamo){
-        validarDisponibilidadEquipo(prestamo);
+        validarDisponibilidadEquipo(prestamo.getEquipo().getId());
         validarPorIdentificacion(prestamo.getIdentificacionUsuario());
         validarExistenciaPrevia(prestamo);
+        cambiarDisponibilidadEquipo(prestamo.getEquipo());
         return this.prestamoRepositorio.crear(prestamo);
     }
 
-    private void validarDisponibilidadEquipo(Prestamo prestamo) {
-        boolean disponible = this.prestamoRepositorio.estadoDisponibleEquipo(prestamo.getEquipo().getId());
+    private void cambiarDisponibilidadEquipo(Equipo equipo){
+        this.equipoRepositorio.actualizarDisponibilidad(equipo);
+    }
+
+    private void validarDisponibilidadEquipo(Long idEquipo) {
+        boolean disponible = this.equipoRepositorio.verificarDisponibilidadPorId(idEquipo);
         if(!disponible){
             throw new ExcepcionDuplicidad(EQUIPO_NO_ESTA_DISPONIBLE);
         }
