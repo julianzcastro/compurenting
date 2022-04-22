@@ -17,7 +17,7 @@ public class FabricaEquipo {
         );
     }
 
-    private TipoEquipoEnum asignarTipoEquipo(String tipo){
+    public static TipoEquipoEnum asignarTipoEquipo(String tipo){
         if(TipoEquipoEnum.BASICO.getDescripcion().equalsIgnoreCase(tipo)){
             return TipoEquipoEnum.BASICO;
         }else{

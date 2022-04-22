@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class MapeoEquipoEntidad implements RowMapper<Equipo>, MapperResult {
+
     @Override
     public Equipo mapRow(ResultSet resultSet, int rowNum) throws SQLException {
         Long id = resultSet.getLong("id");
