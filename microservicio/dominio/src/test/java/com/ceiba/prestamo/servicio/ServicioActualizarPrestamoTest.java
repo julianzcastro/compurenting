@@ -24,7 +24,7 @@ class ServicioActualizarPrestamoTest {
         Mockito.when(prestamoRepositorio.existeporId(Mockito.anyLong())).thenReturn(false);
         ActualizarPrestamoServicio actualizarPrestamoServicio = new ActualizarPrestamoServicio(prestamoRepositorio, equipoRepositorio);
         // act - assert
-        BasePrueba.assertThrows(() -> actualizarPrestamoServicio.ejecutar(prestamo), ExcepcionDuplicidad.class,"El préstamo que intenta actualizar no está registrado en el sistema.");
+        BasePrueba.assertThrows(() -> actualizarPrestamoServicio.ejecutar(prestamo), ExcepcionDuplicidad.class,"El prestamo que intenta actualizar no esta registrado en el sistema.");
     }
 
     @Test
@@ -38,7 +38,7 @@ class ServicioActualizarPrestamoTest {
         Mockito.when(equipoRepositorio.existePorId(Mockito.anyLong())).thenReturn(false);
         ActualizarPrestamoServicio actualizarPrestamoServicio = new ActualizarPrestamoServicio(prestamoRepositorio, equipoRepositorio);
         // act - assert
-        BasePrueba.assertThrows(() -> actualizarPrestamoServicio.ejecutar(prestamo), ExcepcionDuplicidad.class,"El equipo que intenta agregar al préstamo no está registrado en el sistema.");
+        BasePrueba.assertThrows(() -> actualizarPrestamoServicio.ejecutar(prestamo), ExcepcionDuplicidad.class,"El equipo que intenta agregar al prestamo no esta registrado en el sistema.");
     }
 
     @Test
@@ -56,7 +56,7 @@ class ServicioActualizarPrestamoTest {
         Mockito.when(equipoRepositorio.disponible(Mockito.anyLong())).thenReturn(false);
         ActualizarPrestamoServicio actualizarPrestamoServicio = new ActualizarPrestamoServicio(prestamoRepositorio, equipoRepositorio);
         // act - assert
-        BasePrueba.assertThrows(() -> actualizarPrestamoServicio.ejecutar(prestamo), ExcepcionDuplicidad.class,"El equipo que intenta actualizar al préstamo no está disponible.");
+        BasePrueba.assertThrows(() -> actualizarPrestamoServicio.ejecutar(prestamo), ExcepcionDuplicidad.class,"El equipo que intenta actualizar al prestamo no esta disponible.");
     }
 
     @Test

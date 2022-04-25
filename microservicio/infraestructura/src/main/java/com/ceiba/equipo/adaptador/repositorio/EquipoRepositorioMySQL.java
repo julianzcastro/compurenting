@@ -1,8 +1,6 @@
 package com.ceiba.equipo.adaptador.repositorio;
 
 import com.ceiba.equipo.comando.fabrica.FabricaEquipo;
-import com.ceiba.equipo.fabrica.EquipoTransaccional;
-import com.ceiba.equipo.fabrica.FabricaEntidadEquipoTransaccional;
 import com.ceiba.equipo.modelo.entidad.Equipo;
 import com.ceiba.equipo.puerto.repositorio.EquipoRepositorio;
 import com.ceiba.infraestructura.jdbc.CustomNamedParameterJdbcTemplate;
@@ -14,7 +12,6 @@ import org.springframework.stereotype.Repository;
 public class EquipoRepositorioMySQL implements EquipoRepositorio {
     private final CustomNamedParameterJdbcTemplate customNamedParameterJdbcTemplate;
     private final FabricaEquipo fabricaEquipo;
-    private final FabricaEntidadEquipoTransaccional fabricaEntidadEquipoTransaccional;
 
     @SqlStatement(namespace="equipo", value="crear")
     private static String sqlCrear;
@@ -44,22 +41,30 @@ public class EquipoRepositorioMySQL implements EquipoRepositorio {
     private static String sqlActualizarDisponibilidad;
 
 
-    public EquipoRepositorioMySQL(CustomNamedParameterJdbcTemplate customNamedParameterJdbcTemplate, FabricaEquipo fabricaEquipo, FabricaEntidadEquipoTransaccional fabricaEntidadEquipoTransaccional) {
+    public EquipoRepositorioMySQL(CustomNamedParameterJdbcTemplate customNamedParameterJdbcTemplate, FabricaEquipo fabricaEquipo) {
         this.customNamedParameterJdbcTemplate = customNamedParameterJdbcTemplate;
         this.fabricaEquipo=fabricaEquipo;
-        this.fabricaEntidadEquipoTransaccional=fabricaEntidadEquipoTransaccional;
     }
 
     @Override
     public Long crear(Equipo equipo) {
-        EquipoTransaccional equipoTransaccional = this.fabricaEntidadEquipoTransaccional.crear(equipo);
-        return this.customNamedParameterJdbcTemplate.crear(equipoTransaccional, sqlCrear);
+        MapSqlParameterSource paramSource = new MapSqlParameterSource();
+        paramSource.addValue("serial", equipo.getSerial());
+        paramSource.addValue("marca", equipo.getMarca());
+        paramSource.addValue("disponible", equipo.isDisponible());
+        paramSource.addValue("tipoEquipo", equipo.getTipoEquipo().getDescripcion());
+        return Integer.toUnsignedLong(this.customNamedParameterJdbcTemplate.getNamedParameterJdbcTemplate().update(sqlCrear, paramSource));
     }
 
     @Override
     public void actualizar(Equipo equipo) {
-        EquipoTransaccional equipoTransaccional = this.fabricaEntidadEquipoTransaccional.crear(equipo);
-        this.customNamedParameterJdbcTemplate.actualizar(equipoTransaccional, sqlActualizar);
+        MapSqlParameterSource paramSource = new MapSqlParameterSource();
+        paramSource.addValue("id", equipo.getId());
+        paramSource.addValue("serial", equipo.getSerial());
+        paramSource.addValue("marca", equipo.getMarca());
+        paramSource.addValue("disponible", equipo.isDisponible());
+        paramSource.addValue("tipoEquipo", equipo.getTipoEquipo().getDescripcion());
+        this.customNamedParameterJdbcTemplate.getNamedParameterJdbcTemplate().update(sqlActualizar, paramSource);
     }
 
     @Override

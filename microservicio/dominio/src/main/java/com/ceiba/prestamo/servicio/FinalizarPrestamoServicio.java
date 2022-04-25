@@ -6,7 +6,7 @@ import com.ceiba.prestamo.puerto.repositorio.PrestamoRepositorio;
 
 
 public class FinalizarPrestamoServicio {
-    private static final String PRESTAMO_NO_EXISTE="El préstamo que intenta finalizar no existe en el sistema.";
+    private static final String PRESTAMO_NO_EXISTE="El prestamo que intenta finalizar no existe en el sistema.";
     private final PrestamoRepositorio prestamoRepositorio;
 
     public FinalizarPrestamoServicio(PrestamoRepositorio prestamoRepositorio) {

@@ -3,6 +3,7 @@ package com.ceiba.equipo.adaptador.repositorio;
 import com.ceiba.equipo.comando.fabrica.FabricaEquipo;
 import com.ceiba.equipo.modelo.entidad.Equipo;
 import com.ceiba.infraestructura.jdbc.MapperResult;
+import com.ceiba.tipoequipo.TipoEquipoEnum;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
@@ -23,7 +24,7 @@ public class MapeoEquipoEntidad implements RowMapper<Equipo>, MapperResult {
         String marca =  resultSet.getString("marca");
         boolean disponible = resultSet.getBoolean("disponible");
         String tipoEquipo = resultSet.getString("tipo_equipo");
-        return new Equipo(id, serial, marca, disponible,fabricaEquipo.asignarTipoEquipo(tipoEquipo));
+        return new Equipo(id, serial, marca, disponible,this.fabricaEquipo.asignarTipoEquipo(tipoEquipo));
     }
 
 }

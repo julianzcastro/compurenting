@@ -3,8 +3,6 @@ package com.ceiba.prestamo.adaptador.repositorio;
 import com.ceiba.equipo.comando.fabrica.FabricaEquipo;
 import com.ceiba.infraestructura.jdbc.CustomNamedParameterJdbcTemplate;
 import com.ceiba.infraestructura.jdbc.sqlstatement.SqlStatement;
-import com.ceiba.prestamo.fabrica.FabricaEntidadPrestamoTransaccional;
-import com.ceiba.prestamo.fabrica.PrestamoTransaccional;
 import com.ceiba.prestamo.modelo.entidad.Prestamo;
 import com.ceiba.prestamo.puerto.repositorio.PrestamoRepositorio;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -14,7 +12,6 @@ import org.springframework.stereotype.Repository;
 public class PrestamoRepositorioMySQL implements PrestamoRepositorio {
     private final CustomNamedParameterJdbcTemplate customNamedParameterJdbcTemplate;
     private final FabricaEquipo fabricaEquipo;
-    private final FabricaEntidadPrestamoTransaccional fabricaEntidadPrestamoTransaccional;
 
     @SqlStatement(namespace="prestamo", value="crear")
     private static String sqlCrear;
@@ -36,28 +33,45 @@ public class PrestamoRepositorioMySQL implements PrestamoRepositorio {
 
 
 
-    public PrestamoRepositorioMySQL(CustomNamedParameterJdbcTemplate customNamedParameterJdbcTemplate, FabricaEquipo fabricaEquipo, FabricaEntidadPrestamoTransaccional fabricaEntidadPrestamoTransaccional) {
+    public PrestamoRepositorioMySQL(CustomNamedParameterJdbcTemplate customNamedParameterJdbcTemplate, FabricaEquipo fabricaEquipo) {
         this.customNamedParameterJdbcTemplate = customNamedParameterJdbcTemplate;
         this.fabricaEquipo=fabricaEquipo;
-        this.fabricaEntidadPrestamoTransaccional=fabricaEntidadPrestamoTransaccional;
     }
 
     @Override
     public Long crear(Prestamo prestamo) {
-        PrestamoTransaccional prestamoTransaccional = fabricaEntidadPrestamoTransaccional.crear(prestamo);
-        return this.customNamedParameterJdbcTemplate.crear(prestamoTransaccional, sqlCrear);
+        MapSqlParameterSource paramSource = new MapSqlParameterSource();
+        paramSource.addValue("id", prestamo.getId());
+        paramSource.addValue("identificacionUsuario", prestamo.getIdentificacionUsuario());
+        paramSource.addValue("idEquipo", prestamo.getEquipo().getId());
+        paramSource.addValue("fechaPrestamo", prestamo.getFechaPrestamo());
+        paramSource.addValue("numeroDias", prestamo.getNumeroDias());
+        paramSource.addValue("total", prestamo.getTotal());
+        paramSource.addValue("estado", prestamo.isEstado());
+
+        return Integer.toUnsignedLong(this.customNamedParameterJdbcTemplate.getNamedParameterJdbcTemplate().update(sqlCrear, paramSource));
     }
 
     @Override
     public void actualizar(Prestamo prestamo) {
-        PrestamoTransaccional prestamoTransaccional = fabricaEntidadPrestamoTransaccional.crear(prestamo);
-        this.customNamedParameterJdbcTemplate.actualizar(prestamoTransaccional, sqlActualizar);
+        MapSqlParameterSource paramSource = new MapSqlParameterSource();
+        paramSource.addValue("id", prestamo.getId());
+        paramSource.addValue("identificacionUsuario", prestamo.getIdentificacionUsuario());
+        paramSource.addValue("idEquipo", prestamo.getEquipo().getId());
+        paramSource.addValue("fechaPrestamo", prestamo.getFechaPrestamo());
+        paramSource.addValue("numeroDias", prestamo.getNumeroDias());
+        paramSource.addValue("total", prestamo.getTotal());
+        paramSource.addValue("estado", prestamo.isEstado());
+        this.customNamedParameterJdbcTemplate.getNamedParameterJdbcTemplate().update(sqlActualizar, paramSource);
     }
 
     @Override
     public void finalizar(Prestamo prestamo) {
-        PrestamoTransaccional prestamoTransaccional = fabricaEntidadPrestamoTransaccional.crear(prestamo);
-        this.customNamedParameterJdbcTemplate.actualizar(prestamoTransaccional, sqlFinalizar);
+        MapSqlParameterSource paramSource = new MapSqlParameterSource();
+        paramSource.addValue("id", prestamo.getId());
+        paramSource.addValue("idEquipo", prestamo.getEquipo().getId());
+        paramSource.addValue("total", prestamo.getTotal());
+        this.customNamedParameterJdbcTemplate.getNamedParameterJdbcTemplate().update(sqlFinalizar, paramSource);
     }
 
     @Override

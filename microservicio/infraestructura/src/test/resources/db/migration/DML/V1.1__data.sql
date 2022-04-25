@@ -1,7 +1,7 @@
---insert into usuario(id, nombre,clave,fecha_creacion) values(1,'test','1234',now());
+insert into usuario(id, nombre,clave,fecha_creacion) values(1,'test','1234',now());
 
 insert into equipo (id, serial, marca, disponible, tipo_equipo) values (1, 'SN1', 'Dell', false, 'Básico');
-insert into equipo (id, serial, marca, disponible, tipo_equipo) values (2, 'SN2', 'Apple', false, 'Gamer');
+insert into equipo (id, serial, marca, disponible, tipo_equipo) values (2, 'SN2', 'Apple', true, 'Gamer');
 insert into equipo (id, serial, marca, disponible, tipo_equipo) values (3, 'SN3', 'Sony', true, 'Básico');
 
 

@@ -7,9 +7,9 @@ import com.ceiba.prestamo.puerto.repositorio.PrestamoRepositorio;
 
 
 public class ActualizarPrestamoServicio {
-    private static final String PRESTAMO_NO_EXISTE="El préstamo que intenta actualizar no está registrado en el sistema.";
-    private static final String EQUIPO_NO_EXISTE="El equipo que intenta agregar al préstamo no está registrado en el sistema.";
-    private static final String EQUIPO_NO_ESTA_DISPONIBLE="El equipo que intenta actualizar al préstamo no está disponible.";
+    private static final String PRESTAMO_NO_EXISTE="El prestamo que intenta actualizar no esta registrado en el sistema.";
+    private static final String EQUIPO_NO_EXISTE="El equipo que intenta agregar al prestamo no esta registrado en el sistema.";
+    private static final String EQUIPO_NO_ESTA_DISPONIBLE="El equipo que intenta actualizar al prestamo no esta disponible.";
     private final PrestamoRepositorio prestamoRepositorio;
     private final EquipoRepositorio equipoRepositorio;
 

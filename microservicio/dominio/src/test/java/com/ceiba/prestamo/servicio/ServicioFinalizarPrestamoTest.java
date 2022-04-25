@@ -18,22 +18,23 @@ class ServicioFinalizarPrestamoTest {
         // arrange
         Prestamo prestamo = new PrestamoTestDataBuilder().conId(1L).build();
         PrestamoRepositorio prestamoRepositorio = Mockito.mock(PrestamoRepositorio.class);
-        EquipoRepositorio equipoRepositorio = Mockito.mock(EquipoRepositorio.class);
         Mockito.when(prestamoRepositorio.existeporId(Mockito.anyLong())).thenReturn(false);
-        ActualizarPrestamoServicio actualizarPrestamoServicio = new ActualizarPrestamoServicio(prestamoRepositorio, equipoRepositorio);
+        FinalizarPrestamoServicio finalizarPrestamoServicio = new FinalizarPrestamoServicio(prestamoRepositorio);
         // act - assert
-        BasePrueba.assertThrows(() -> actualizarPrestamoServicio.ejecutar(prestamo), ExcepcionDuplicidad.class,"El préstamo que intenta finalizar no existe en el sistema.");
+        BasePrueba.assertThrows(() -> finalizarPrestamoServicio.ejecutar(1L), ExcepcionDuplicidad.class,"El prestamo que intenta finalizar no existe en el sistema.");
     }
 
     @Test
     @DisplayName("Deberia finalizar el prestamo llamando al repositorio")
-    void deberiaEliminarElUsuarioLlamandoAlRepositorio() {
+    void deberiaFinalizarElPrestamoLlamandoAlRepositorio() {
+        Prestamo prestamo = new PrestamoTestDataBuilder().conId(1L).build();
         PrestamoRepositorio prestamoRepositorio = Mockito.mock(PrestamoRepositorio.class);
+        Mockito.when(prestamoRepositorio.buscarPorId(Mockito.anyLong())).thenReturn(prestamo);
+        Mockito.when(prestamoRepositorio.existeporId(Mockito.anyLong())).thenReturn(true);
         FinalizarPrestamoServicio finalizarPrestamoServicio = new FinalizarPrestamoServicio(prestamoRepositorio);
-
         finalizarPrestamoServicio.ejecutar(1L);
 
-        Mockito.verify(finalizarPrestamoServicio, Mockito.times(1)).ejecutar(1L);
+        Mockito.verify(prestamoRepositorio, Mockito.times(1)).finalizar(prestamo);
 
     }
 }
