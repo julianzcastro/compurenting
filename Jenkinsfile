@@ -48,7 +48,7 @@ pipeline {
       steps{
         echo '------------>Análisis de código estático<------------'
         sonarqubeMasQualityGatesP(sonarKey:'co.com.ceiba.julian.castro.compurenting', 
-        sonarName:'ceiba-compurenting(julian.castro)', 
+        sonarName:'''"ceiba-compurenting(julian.castro)"''', 
         sonarPathProperties:'./sonar-project.properties')
 
       }
