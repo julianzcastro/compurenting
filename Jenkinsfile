@@ -17,6 +17,7 @@ pipeline {
   }
 
 
+	stages{
   //Aquí comienzan los “items” del Pipeline
   stage('Checkout') {
       steps{
@@ -56,7 +57,7 @@ pipeline {
     stage('Build') {
       steps {
         echo "------------>Build<------------"
-	  sh 'gradle --b ./microservicio/build.gradle build -x test'
+	  sh './microservicio/gradlew --b ./build.gradle test'
       }
     }  
   }
