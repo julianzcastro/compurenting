@@ -3,7 +3,6 @@ package com.ceiba.equipo.adaptador.repositorio;
 import com.ceiba.equipo.comando.fabrica.FabricaEquipo;
 import com.ceiba.equipo.modelo.entidad.Equipo;
 import com.ceiba.infraestructura.jdbc.MapperResult;
-import com.ceiba.tipoequipo.TipoEquipoEnum;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;

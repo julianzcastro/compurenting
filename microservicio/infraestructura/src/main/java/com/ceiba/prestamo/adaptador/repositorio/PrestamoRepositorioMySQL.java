@@ -1,7 +1,6 @@
 package com.ceiba.prestamo.adaptador.repositorio;
 
 import com.ceiba.equipo.comando.fabrica.FabricaEquipo;
-import com.ceiba.equipo.fabrica.FabricaEntidadEquipoTransaccional;
 import com.ceiba.infraestructura.jdbc.CustomNamedParameterJdbcTemplate;
 import com.ceiba.infraestructura.jdbc.sqlstatement.SqlStatement;
 import com.ceiba.prestamo.fabrica.FabricaEntidadPrestamoTransaccional;

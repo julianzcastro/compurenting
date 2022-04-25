@@ -4,7 +4,6 @@ import com.ceiba.BasePrueba;
 import com.ceiba.dominio.excepcion.ExcepcionDuplicidad;
 import com.ceiba.equipo.modelo.entidad.Equipo;
 import com.ceiba.equipo.puerto.repositorio.EquipoRepositorio;
-import com.ceiba.equipo.servicio.ActualizarEquipoServicio;
 import com.ceiba.equipo.servicio.testdatabuillder.EquipoTestDataBuilder;
 import com.ceiba.prestamo.modelo.entidad.Prestamo;
 import com.ceiba.prestamo.puerto.repositorio.PrestamoRepositorio;

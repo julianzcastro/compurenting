@@ -21,10 +21,18 @@ public class CrearPrestamoServicio {
     }
 
     public Long ejecutar(Prestamo prestamo){
+        validarExistenciaPrevia(prestamo);
         validarPorIdentificacion(prestamo.getIdentificacionUsuario());
         validarDisponibilidadEquipo(prestamo.getEquipo().getId());
         cambiarDisponibilidadEquipo(prestamo.getEquipo());
         return this.prestamoRepositorio.crear(prestamo);
+    }
+
+    private void validarExistenciaPrevia(Prestamo prestamo) {
+        boolean existe = this.prestamoRepositorio.existeporId(prestamo.getId());
+        if(existe) {
+            throw new ExcepcionDuplicidad(PRESTAMO_YA_EXISTE);
+        }
     }
 
     private void cambiarDisponibilidadEquipo(Equipo equipo){
