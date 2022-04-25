@@ -10,8 +10,8 @@ public class ActualizarPrestamoServicio {
     private static final String PRESTAMO_NO_EXISTE="El préstamo que intenta actualizar no está registrado en el sistema.";
     private static final String EQUIPO_NO_EXISTE="El equipo que intenta agregar al préstamo no está registrado en el sistema.";
     private static final String EQUIPO_NO_ESTA_DISPONIBLE="El equipo que intenta actualizar al préstamo no está disponible.";
-    private PrestamoRepositorio prestamoRepositorio;
-    private EquipoRepositorio equipoRepositorio;
+    private final PrestamoRepositorio prestamoRepositorio;
+    private final EquipoRepositorio equipoRepositorio;
 
     public ActualizarPrestamoServicio(PrestamoRepositorio prestamoRepositorio, EquipoRepositorio equipoRepositorio) {
         this.prestamoRepositorio = prestamoRepositorio;
@@ -21,8 +21,7 @@ public class ActualizarPrestamoServicio {
     public void ejecutar(Prestamo prestamo) {
         validarExistenciaPrevia(prestamo);
         validarExistenciaEquipoPorId(prestamo.getEquipo().getId());
-        validarEquipoEnOtroPrestamo(prestamo);
-        validarDisponinibilidadEquipoPorId(prestamo.getEquipo().getId());
+        validarCambioDeEquipo(prestamo);
         this.prestamoRepositorio.actualizar(prestamo);
     }
 
@@ -40,7 +39,7 @@ public class ActualizarPrestamoServicio {
         }
     }
 
-    private void validarEquipoEnOtroPrestamo(Prestamo prestamo){
+    private void validarCambioDeEquipo(Prestamo prestamo){
         Prestamo prestamoPrevio = this.prestamoRepositorio.buscarPorId(prestamo.getId());
         if(!prestamo.getEquipo().getId().equals(prestamoPrevio.getEquipo().getId())){
             validarDisponinibilidadEquipoPorId(prestamo.getEquipo().getId());
@@ -48,7 +47,7 @@ public class ActualizarPrestamoServicio {
     }
 
     private void validarDisponinibilidadEquipoPorId(Long idEquipo){
-        boolean estaDisponible = this.equipoRepositorio.verificarDisponibilidadPorId(idEquipo);
+        boolean estaDisponible = this.equipoRepositorio.disponible(idEquipo);
         if(!estaDisponible){
             throw new ExcepcionDuplicidad(EQUIPO_NO_ESTA_DISPONIBLE);
         }

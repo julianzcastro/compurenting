@@ -1,6 +1,7 @@
 package com.ceiba.prestamo.entidad;
 
 import com.ceiba.BasePrueba;
+import com.ceiba.dominio.excepcion.ExcepcionValorInvalido;
 import com.ceiba.dominio.excepcion.ExcepcionValorObligatorio;
 import com.ceiba.equipo.modelo.entidad.Equipo;
 import com.ceiba.equipo.servicio.testdatabuillder.EquipoTestDataBuilder;
@@ -11,7 +12,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class PrestamoPrueba {
+class PrestamoTest {
 
     @Test
     @DisplayName("Deberia crear correctamente el prestamo")
@@ -22,7 +23,10 @@ public class PrestamoPrueba {
 
         assertEquals(1, prestamo.getId());
         assertEquals("100", prestamo.getIdentificacionUsuario());
-        assertEquals(equipo, prestamo.getEquipo());
+        assertEquals(equipo.getId(), prestamo.getEquipo().getId());
+        assertEquals(equipo.getMarca(), prestamo.getEquipo().getMarca());
+        assertEquals(equipo.getSerial(), prestamo.getEquipo().getSerial());
+        assertEquals(equipo.getTipoEquipo(), prestamo.getEquipo().getTipoEquipo());
         assertEquals(5, prestamo.getNumeroDias());
 
     }
@@ -68,7 +72,7 @@ public class PrestamoPrueba {
         BasePrueba.assertThrows(() -> {
                     prestamoTestDataBuilder.build();
                 },
-                ExcepcionValorObligatorio.class, "El número de días debe ser positivo, mayor a cero.");
+                ExcepcionValorInvalido.class, "El número de días debe ser positivo, mayor a cero.");
     }
 
 

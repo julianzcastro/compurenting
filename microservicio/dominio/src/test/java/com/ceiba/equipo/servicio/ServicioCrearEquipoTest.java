@@ -16,7 +16,7 @@ import org.mockito.Mockito;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class ServicioCrearEquipoTest {
+class ServicioCrearEquipoTest {
 
     @Test
     @DisplayName("Deberia lanzar una excepcion cuando se valide la existencia del Usuario")
@@ -40,9 +40,9 @@ public class ServicioCrearEquipoTest {
         Mockito.when(equipoRepositorio.crear(equipo)).thenReturn(10L);
         CrearEquipoServicio crearEquipoServicio = new CrearEquipoServicio(equipoRepositorio);
         // act
-        Long idUsuario = crearEquipoServicio.ejecutar(equipo);
+        Long idEquipo = crearEquipoServicio.ejecutar(equipo);
         //- assert
-        assertEquals(10L,idUsuario);
+        assertEquals(10L,idEquipo);
         Mockito.verify(equipoRepositorio, Mockito.times(1)).crear(equipo);
     }
 }

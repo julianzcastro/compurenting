@@ -11,6 +11,5 @@ public interface EquipoRepositorio {
     boolean existePorSerial(String serial);
     boolean disponible(Long id);
     Equipo buscarPorId(Long id);
-    boolean verificarDisponibilidadPorId(Long id);
     void actualizarDisponibilidad(Equipo equipo);
 }

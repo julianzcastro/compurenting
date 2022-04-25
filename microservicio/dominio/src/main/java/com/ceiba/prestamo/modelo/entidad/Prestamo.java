@@ -19,20 +19,19 @@ public class Prestamo {
 
     private static final int COSTO_POR_DIA_EXTRA = 10;
 
-    private Long id;
-    private String identificacionUsuario;
-    private Equipo equipo;
-    private LocalDate fechaPrestamo;
-    private Integer numeroDias;
+    private final Long id;
+    private final String identificacionUsuario;
+    private final Equipo equipo;
+    private final LocalDate fechaPrestamo;
+    private final Integer numeroDias;
     private Integer total;
-    private boolean estado;
+    private final boolean estado;
 
     public Prestamo(Long id, String identificacionUsuario, Equipo equipo, Integer numeroDias) {
 
         ValidadorArgumento.validarObligatorio(identificacionUsuario, IDENTIFICACION_USUARIO_OBLIGATORIO);
         ValidadorArgumento.validarObligatorio(equipo, INFORMACION_EQUIPO_OBLIGATORIO);
         ValidadorArgumento.validarObligatorio(numeroDias, NUMERO_DIAS_PRESTAMO_OBLIGATORIO);
-        ValidadorArgumento.validarNumerico(String.valueOf(numeroDias), NUMERO_DIAS_DEBE_SER_NUMERICO);
         ValidadorArgumento.validarMayorQueCero(numeroDias, NUMERO_DIAS_DEBE_SER_VALOR_POSITIVO);
         this.id = id;
         this.identificacionUsuario = identificacionUsuario;
@@ -47,11 +46,11 @@ public class Prestamo {
         this.total= numeroDias*getEquipo().getTipoEquipo().getPrecioDia();
     }
 
-    public static void asignarTotal(Prestamo prestamo){
+    public void asignarTotal(){
         LocalDate fechaActual = LocalDate.now();
-        LocalDate fechaDevolucion = prestamo.getFechaPrestamo();
+        LocalDate fechaDevolucion = this.getFechaPrestamo();
         if(fechaActual.isAfter(fechaDevolucion)){
-            prestamo.calcularExcedente(fechaActual.getDayOfMonth()-fechaDevolucion.getDayOfMonth());
+            this.calcularExcedente(fechaActual.getDayOfMonth()-fechaDevolucion.getDayOfMonth());
         }
     }
 

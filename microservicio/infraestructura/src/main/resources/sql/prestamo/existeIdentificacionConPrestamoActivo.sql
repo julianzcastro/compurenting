@@ -1,2 +1,2 @@
-select count(1) from prestamo join equipo on prestamo.id_equipo=equipo.id
-where prestamo.identificacion_usuario= :identificacionUsuario and equipo.disponible = false
+select count(1) from prestamo
+where prestamo.identificacion_usuario= :identificacionUsuario and prestamo.estado = true

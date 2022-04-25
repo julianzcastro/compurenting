@@ -13,9 +13,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-public class ServicioActualizarEquipoTest {
+class ServicioActualizarEquipoTest {
     @Test
-    @DisplayName("Deberia validar la existencia previa del usuario")
+    @DisplayName("Deberia validar la existencia previa del equipo")
     void deberiaValidarLaExistenciaPreviaDelEquipo() {
         // arrange
         Equipo equipo = new EquipoTestDataBuilder().conId(1L).build();

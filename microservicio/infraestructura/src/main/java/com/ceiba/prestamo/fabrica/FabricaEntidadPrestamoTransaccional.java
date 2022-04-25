@@ -1,9 +1,11 @@
 package com.ceiba.prestamo.fabrica;
 
 import com.ceiba.prestamo.modelo.entidad.Prestamo;
+import org.springframework.stereotype.Component;
 
+@Component
 public class FabricaEntidadPrestamoTransaccional {
-    public static PrestamoTransaccional crear(Prestamo prestamo){
+    public PrestamoTransaccional crear(Prestamo prestamo){
         return new PrestamoTransaccional(
                 prestamo.getId(),
                 prestamo.getIdentificacionUsuario(),

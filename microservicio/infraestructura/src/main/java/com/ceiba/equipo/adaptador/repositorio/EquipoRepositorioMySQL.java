@@ -1,5 +1,6 @@
 package com.ceiba.equipo.adaptador.repositorio;
 
+import com.ceiba.equipo.comando.fabrica.FabricaEquipo;
 import com.ceiba.equipo.fabrica.EquipoTransaccional;
 import com.ceiba.equipo.fabrica.FabricaEntidadEquipoTransaccional;
 import com.ceiba.equipo.modelo.entidad.Equipo;
@@ -12,6 +13,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class EquipoRepositorioMySQL implements EquipoRepositorio {
     private final CustomNamedParameterJdbcTemplate customNamedParameterJdbcTemplate;
+    private final FabricaEquipo fabricaEquipo;
+    private final FabricaEntidadEquipoTransaccional fabricaEntidadEquipoTransaccional;
 
     @SqlStatement(namespace="equipo", value="crear")
     private static String sqlCrear;
@@ -41,19 +44,21 @@ public class EquipoRepositorioMySQL implements EquipoRepositorio {
     private static String sqlActualizarDisponibilidad;
 
 
-    public EquipoRepositorioMySQL(CustomNamedParameterJdbcTemplate customNamedParameterJdbcTemplate) {
+    public EquipoRepositorioMySQL(CustomNamedParameterJdbcTemplate customNamedParameterJdbcTemplate, FabricaEquipo fabricaEquipo, FabricaEntidadEquipoTransaccional fabricaEntidadEquipoTransaccional) {
         this.customNamedParameterJdbcTemplate = customNamedParameterJdbcTemplate;
+        this.fabricaEquipo=fabricaEquipo;
+        this.fabricaEntidadEquipoTransaccional=fabricaEntidadEquipoTransaccional;
     }
 
     @Override
     public Long crear(Equipo equipo) {
-        EquipoTransaccional equipoTransaccional = FabricaEntidadEquipoTransaccional.crear(equipo);
+        EquipoTransaccional equipoTransaccional = this.fabricaEntidadEquipoTransaccional.crear(equipo);
         return this.customNamedParameterJdbcTemplate.crear(equipoTransaccional, sqlCrear);
     }
 
     @Override
     public void actualizar(Equipo equipo) {
-        EquipoTransaccional equipoTransaccional = FabricaEntidadEquipoTransaccional.crear(equipo);
+        EquipoTransaccional equipoTransaccional = this.fabricaEntidadEquipoTransaccional.crear(equipo);
         this.customNamedParameterJdbcTemplate.actualizar(equipoTransaccional, sqlActualizar);
     }
 
@@ -89,14 +94,7 @@ public class EquipoRepositorioMySQL implements EquipoRepositorio {
     public Equipo buscarPorId(Long id) {
         MapSqlParameterSource paramSource = new MapSqlParameterSource();
         paramSource.addValue("id", id);
-        return this.customNamedParameterJdbcTemplate.getNamedParameterJdbcTemplate().queryForObject(sqlExistePorIdentificacion, paramSource, new MapeoEquipoEntidad());
-    }
-
-    @Override
-    public boolean verificarDisponibilidadPorId(Long id) {
-        MapSqlParameterSource paramSource = new MapSqlParameterSource();
-        paramSource.addValue("id", id);
-        return this.customNamedParameterJdbcTemplate.getNamedParameterJdbcTemplate().queryForObject(sqlVerificarDisponibilidadPorId, paramSource, Boolean.class);
+        return this.customNamedParameterJdbcTemplate.getNamedParameterJdbcTemplate().queryForObject(sqlExistePorIdentificacion, paramSource, new MapeoEquipoEntidad(fabricaEquipo));
     }
 
     @Override

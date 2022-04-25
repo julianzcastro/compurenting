@@ -1,6 +1,7 @@
 package com.ceiba.prestamo.servicio.testdatabuilder;
 
 import com.ceiba.equipo.modelo.entidad.Equipo;
+import com.ceiba.equipo.servicio.testdatabuillder.EquipoTestDataBuilder;
 import com.ceiba.prestamo.modelo.entidad.Prestamo;
 import com.ceiba.tipoequipo.TipoEquipoEnum;
 
@@ -16,9 +17,10 @@ public class PrestamoTestDataBuilder {
 
     public PrestamoTestDataBuilder(){
         identificacionUsuario="100";
-        equipo= new Equipo(1L, "SN1", "Apple", true, TipoEquipoEnum.BASICO);
+        equipo= new EquipoTestDataBuilder().conId(1L).build();
         numeroDias=5;
     }
+
     public PrestamoTestDataBuilder conId(Long id){
         this.id = id;
         return this;

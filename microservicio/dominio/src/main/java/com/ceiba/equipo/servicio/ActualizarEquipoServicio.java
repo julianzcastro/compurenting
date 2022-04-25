@@ -6,7 +6,7 @@ import com.ceiba.equipo.puerto.repositorio.EquipoRepositorio;
 
 public class ActualizarEquipoServicio {
 
-    private EquipoRepositorio equipoRepositorio;
+    private final EquipoRepositorio equipoRepositorio;
 
     public ActualizarEquipoServicio(EquipoRepositorio equipoRepositorio) {
         this.equipoRepositorio = equipoRepositorio;

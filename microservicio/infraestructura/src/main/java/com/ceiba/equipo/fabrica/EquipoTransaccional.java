@@ -1,11 +1,12 @@
 package com.ceiba.equipo.fabrica;
 
+
 public class EquipoTransaccional {
-    private Long id;
-    private String serial;
-    private String marca;
-    private boolean disponible;
-    private String tipoEquipo;
+    private final Long id;
+    private final String serial;
+    private final String marca;
+    private final boolean disponible;
+    private final String tipoEquipo;
 
     public EquipoTransaccional(Long id, String serial, String marca, boolean disponible, String tipoEquipo) {
         this.id = id;
@@ -14,4 +15,5 @@ public class EquipoTransaccional {
         this.disponible = disponible;
         this.tipoEquipo = tipoEquipo;
     }
+
 }

@@ -12,8 +12,8 @@ public class CrearPrestamoServicio {
     private static final String IDENTIFICACION_USUARIO_TIENE_PRESTAMO_ACTIVO="El usuario ya tiene un préstamo activo, registrado en el sistema.";
     private static final String EQUIPO_NO_ESTA_DISPONIBLE="El equipo ingresado tiene otro préstamo activo registrado en el sistema.";
 
-    private PrestamoRepositorio prestamoRepositorio;
-    private EquipoRepositorio equipoRepositorio;
+    private final PrestamoRepositorio prestamoRepositorio;
+    private final EquipoRepositorio equipoRepositorio;
 
     public CrearPrestamoServicio(PrestamoRepositorio prestamoRepositorio, EquipoRepositorio equipoRepositorio) {
         this.prestamoRepositorio = prestamoRepositorio;
@@ -21,9 +21,8 @@ public class CrearPrestamoServicio {
     }
 
     public Long ejecutar(Prestamo prestamo){
-        validarDisponibilidadEquipo(prestamo.getEquipo().getId());
         validarPorIdentificacion(prestamo.getIdentificacionUsuario());
-        validarExistenciaPrevia(prestamo);
+        validarDisponibilidadEquipo(prestamo.getEquipo().getId());
         cambiarDisponibilidadEquipo(prestamo.getEquipo());
         return this.prestamoRepositorio.crear(prestamo);
     }
@@ -33,16 +32,9 @@ public class CrearPrestamoServicio {
     }
 
     private void validarDisponibilidadEquipo(Long idEquipo) {
-        boolean disponible = this.equipoRepositorio.verificarDisponibilidadPorId(idEquipo);
+        boolean disponible = this.equipoRepositorio.disponible(idEquipo);
         if(!disponible){
             throw new ExcepcionDuplicidad(EQUIPO_NO_ESTA_DISPONIBLE);
-        }
-    }
-
-    private void validarExistenciaPrevia(Prestamo prestamo) {
-        boolean existe = this.prestamoRepositorio.existeporId(prestamo.getId());
-        if(existe){
-            throw new ExcepcionDuplicidad(PRESTAMO_YA_EXISTE);
         }
     }
 

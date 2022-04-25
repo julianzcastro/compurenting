@@ -4,13 +4,12 @@ import com.ceiba.BasePrueba;
 import com.ceiba.dominio.excepcion.ExcepcionValorObligatorio;
 import com.ceiba.equipo.modelo.entidad.Equipo;
 import com.ceiba.equipo.servicio.testdatabuillder.EquipoTestDataBuilder;
-import com.ceiba.tipoequipo.TipoEquipoEnum;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class EquipoPrueba {
+class EquipoTest {
 
     @Test
     @DisplayName("Deberia crear correctamente el equipo")
@@ -58,6 +57,7 @@ public class EquipoPrueba {
                 },
                 ExcepcionValorObligatorio.class, "Se debe ingresar un tipo de Equipo válido");
     }
+
 
 
 

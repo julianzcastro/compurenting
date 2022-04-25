@@ -10,7 +10,7 @@ public class EquipoTestDataBuilder {
     private Long id;
     private String serial;
     private String marca;
-    private Boolean disponible;
+    private boolean disponible;
     private TipoEquipoEnum tipoEquipo;
 
     public EquipoTestDataBuilder(){
@@ -34,7 +34,7 @@ public class EquipoTestDataBuilder {
         return this;
     }
 
-    public EquipoTestDataBuilder conDisponible(Boolean disponible){
+    public EquipoTestDataBuilder conDisponibilidad(boolean disponible){
         this.disponible=disponible;
         return this;
     }

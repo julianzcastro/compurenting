@@ -1,6 +1,7 @@
 package com.ceiba.prestamo.adaptador.repositorio;
 
 import com.ceiba.equipo.comando.fabrica.FabricaEquipo;
+import com.ceiba.equipo.fabrica.FabricaEntidadEquipoTransaccional;
 import com.ceiba.infraestructura.jdbc.CustomNamedParameterJdbcTemplate;
 import com.ceiba.infraestructura.jdbc.sqlstatement.SqlStatement;
 import com.ceiba.prestamo.fabrica.FabricaEntidadPrestamoTransaccional;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Repository;
 public class PrestamoRepositorioMySQL implements PrestamoRepositorio {
     private final CustomNamedParameterJdbcTemplate customNamedParameterJdbcTemplate;
     private final FabricaEquipo fabricaEquipo;
+    private final FabricaEntidadPrestamoTransaccional fabricaEntidadPrestamoTransaccional;
 
     @SqlStatement(namespace="prestamo", value="crear")
     private static String sqlCrear;
@@ -35,26 +37,27 @@ public class PrestamoRepositorioMySQL implements PrestamoRepositorio {
 
 
 
-    public PrestamoRepositorioMySQL(CustomNamedParameterJdbcTemplate customNamedParameterJdbcTemplate, FabricaEquipo fabricaEquipo) {
+    public PrestamoRepositorioMySQL(CustomNamedParameterJdbcTemplate customNamedParameterJdbcTemplate, FabricaEquipo fabricaEquipo, FabricaEntidadPrestamoTransaccional fabricaEntidadPrestamoTransaccional) {
         this.customNamedParameterJdbcTemplate = customNamedParameterJdbcTemplate;
         this.fabricaEquipo=fabricaEquipo;
+        this.fabricaEntidadPrestamoTransaccional=fabricaEntidadPrestamoTransaccional;
     }
 
     @Override
     public Long crear(Prestamo prestamo) {
-        PrestamoTransaccional prestamoTransaccional = FabricaEntidadPrestamoTransaccional.crear(prestamo);
+        PrestamoTransaccional prestamoTransaccional = fabricaEntidadPrestamoTransaccional.crear(prestamo);
         return this.customNamedParameterJdbcTemplate.crear(prestamoTransaccional, sqlCrear);
     }
 
     @Override
     public void actualizar(Prestamo prestamo) {
-        PrestamoTransaccional prestamoTransaccional = FabricaEntidadPrestamoTransaccional.crear(prestamo);
+        PrestamoTransaccional prestamoTransaccional = fabricaEntidadPrestamoTransaccional.crear(prestamo);
         this.customNamedParameterJdbcTemplate.actualizar(prestamoTransaccional, sqlActualizar);
     }
 
     @Override
     public void finalizar(Prestamo prestamo) {
-        PrestamoTransaccional prestamoTransaccional = FabricaEntidadPrestamoTransaccional.crear(prestamo);
+        PrestamoTransaccional prestamoTransaccional = fabricaEntidadPrestamoTransaccional.crear(prestamo);
         this.customNamedParameterJdbcTemplate.actualizar(prestamoTransaccional, sqlFinalizar);
     }
 
